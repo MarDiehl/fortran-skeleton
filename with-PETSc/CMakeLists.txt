@@ -1,5 +1,4 @@
 ########################################################################################
-# Compiler options for building DAMASK
 cmake_minimum_required (VERSION 3.10.0 FATAL_ERROR)
 
 #---------------------------------------------------------------------------------------
@@ -104,7 +103,7 @@ set (CMAKE_C_COMPILER       "${PETSC_MPICC}")
 #---------------------------------------------------------------------------------------
 # Now start to care about the project
 
-project (main Fortran C)
+project (executable Fortran C)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
