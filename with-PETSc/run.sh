@@ -6,4 +6,4 @@ make
 if [ -z ${PETSC_ARCH+x} ]; 
     then export PETSC_ARCH=''
 fi
-${PETSC_DIR}/lib/petsc/bin/petscmpiexec -valgrind -n 1 src/executable
+./src/executable
