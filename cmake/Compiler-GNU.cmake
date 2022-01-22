@@ -10,11 +10,11 @@ if (OPENMP)
 endif ()
 
 if (OPTIMIZATION STREQUAL "OFF")
-  set (OPTIMIZATION_FLAGS "-O0"       )
+  set (OPTIMIZATION_FLAGS "-O0")
 elseif (OPTIMIZATION STREQUAL "DEFENSIVE")
-  set (OPTIMIZATION_FLAGS "-O2")
+  set (OPTIMIZATION_FLAGS "-O2 -mtune=generic")
 elseif (OPTIMIZATION STREQUAL "AGGRESSIVE")
-  set (OPTIMIZATION_FLAGS "-O3 -ffast-math -funroll-loops -ftree-vectorize")
+  set (OPTIMIZATION_FLAGS "-O3 -march=native -ffast-math -funroll-loops -ftree-vectorize")
 endif ()
 
 set (STANDARD_CHECK "-std=f2018 -pedantic-errors" )
@@ -25,7 +25,7 @@ set (LINKER_FLAGS  "${LINKER_FLAGS},-undefined,dynamic_lookup" )
 
 #------------------------------------------------------------------------------------------------
 # Fine tuning compilation options
-set (COMPILE_FLAGS "${COMPILE_FLAGS} -xf95-cpp-input")
+set (COMPILE_FLAGS "${COMPILE_FLAGS} -cpp")
 # preprocessor
 
 set (COMPILE_FLAGS "${COMPILE_FLAGS} -fPIC -fPIE")
@@ -117,6 +117,8 @@ set (COMPILE_FLAGS "${COMPILE_FLAGS} -ffpe-summary=all")
 # Runtime debugging
 set (DEBUG_FLAGS "${DEBUG_FLAGS} -ffpe-trap=invalid,zero,overflow")
 # stop execution if floating point exception is detected (NaN is silent)
+# Additional options
+# -ffpe-trap=precision,denormal,underflow
 
 set (DEBUG_FLAGS "${DEBUG_FLAGS} -g")
 # Generate symbolic debugging information in the object file
@@ -126,8 +128,13 @@ set (DEBUG_FLAGS "${DEBUG_FLAGS} -fdump-core")
 set (DEBUG_FLAGS "${DEBUG_FLAGS} -fcheck=all")
 # checks for (array-temps,bounds,do,mem,pointer,recursion)
 
+set (DEBUG_FLAGS "${DEBUG_FLAGS} -fstack-protector-all")
+# Inserts a guard variable onto the stack frame for all functions
+
+set (DEBUG_FLAGS "${DEBUG_FLAGS} -fsanitize=undefined")
+# detect undefined behavior
 # Additional options
-# -ffpe-trap=precision,denormal,underflow
+# -fsanitize=address,leak,thread
 
 #------------------------------------------------------------------------------------------------
 #  precision settings
