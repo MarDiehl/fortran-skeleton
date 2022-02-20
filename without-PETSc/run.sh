@@ -1,3 +1,5 @@
+#! /usr/bin/env sh
+
 if [ -z ${F90+x} ]; 
     then export F90=gfortran
 fi
